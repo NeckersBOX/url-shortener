@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/NeckersBOX/url-shortener/issues"
   },
-  "homepage": "https://github.com/NeckersBOX/url-shortener#readme"
+  "homepage": "https://github.com/NeckersBOX/url-shortener#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "marked": "^0.3.6"
+  }
 }
