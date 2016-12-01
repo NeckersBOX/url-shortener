@@ -1,0 +1,21 @@
+{
+  "name": "url_shortener",
+  "version": "1.0.0",
+  "description": "Url Shortener Microservice",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "git push heroku master && git push github master",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeckersBOX/url-shortener.git"
+  },
+  "author": "Davide Francesco Merico",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NeckersBOX/url-shortener/issues"
+  },
+  "homepage": "https://github.com/NeckersBOX/url-shortener#readme"
+}
