@@ -19,8 +19,12 @@
   },
   "homepage": "https://github.com/NeckersBOX/url-shortener#readme",
   "dependencies": {
+    "assert": "^1.4.1",
+    "co": "^4.6.0",
     "express": "^4.14.0",
     "fs": "0.0.1-security",
-    "marked": "^0.3.6"
-  }
+    "marked": "^0.3.6",
+    "mongodb": "^2.2.12"
+  },
+  "readme": "README.md"
 }
