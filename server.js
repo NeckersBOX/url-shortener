@@ -76,6 +76,38 @@ app.get ('/add/*', (req, res) => {
   });
 });
 
+app.get ('/*', (req, res, next) => {
+  if ( /^[0-9a-f]+$/.test (req.params[0]) ) {
+    co (function* () {
+      let db = yield mongodb.connect (db_data);
+      if ( !db ) {
+        res.writeHead (200, { 'Content-Type': 'application/json' });
+        res.end (JSON.stringify ({ error: 'Error in mongodb.connect' }));
+        return;
+      }
+
+      let collection = db.collection ('links');
+      let base_url = 'https://shorting.herokuapp.com/';
+
+      /* Find Link */
+      let result = yield collection.findOne ({
+        short_url: req.params[0]
+      });
+
+      if ( !result ) {
+        res.writeHead (200, { 'Content-Type': 'application/json' });
+        res.end (JSON.stringify ({ error: 'Link doesn\'t exists' }));
+        return;
+      }
+
+      res.redirect (result.original_url);
+    });
+    return;
+  }
+
+  next ();
+});
+
 app.get ('*', (req, res) => {
   res.writeHead (200, { 'Content-Type': 'text/html'});
 
