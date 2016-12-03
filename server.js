@@ -1,6 +1,6 @@
 "use strict";
 
-const db_data = require ('./db_data').db;
+const db_data = process.env.db_links || require ('./db_data').db;
 const mongodb = require ('mongodb').MongoClient;
 const express = require ('express');
 const fs = require ('fs');
