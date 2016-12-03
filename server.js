@@ -18,9 +18,11 @@ app.get ('/add/*', (req, res) => {
     return;
   }
 
-  let query = '?' + Object.keys (req.query).map (k => (
+  let query = Object.keys (req.query).map (k => (
     encodeURIComponent (k) + '=' + encodeURIComponent (req.query[k])
   )).join ('&');
+  if ( query.length > 0 )
+    query = '?' + query;
 
   let link = 'http://' + req.params[0] + query;
   if ( /^(http(s)?:\/\/)/.test (req.params[0]) )
