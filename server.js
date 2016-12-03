@@ -12,7 +12,15 @@ let app = express ();
 app.get ('/add/:link', (req, res) => {
   res.writeHead (200, { 'Content-Type': 'application/json' });
 
-  /* TODO: validate link */
+  /* Check Link */
+  if ( req.params.link.length < 3 ) {
+    res.end (JSON.stringify ({ error: 'Invalid link' }));
+  }
+
+  let link = 'http://' + req.params.link;
+  if / /^(http(s)?:\/\/)/.test (req.params.link) )
+    link = req.params.link
+
   co (function* () {
     let db = yield mongodb.connect (db_data);
     if ( !db ) {
@@ -25,7 +33,7 @@ app.get ('/add/:link', (req, res) => {
 
     /* Check if it already exists */
     let result = yield collection.findOne ({
-      original_url: req.params.link
+      original_url: link
     });
 
     if ( result ) {
@@ -45,19 +53,19 @@ app.get ('/add/:link', (req, res) => {
     if ( last_record )
       next_id = last_record._id + 1;
 
-    /* TODO: Short url id generator */
-    
+    let code = next_id.toString (16)
+
     /* Insert new record */
     collection.insert ({
       _id: next_id,
-      original_url: req.params.link,
-      short_url: 1000 + next_id,
+      original_url: link,
+      short_url: code,
       timestamp: Math.floor (new Date ().getTime () / 1000)
     });
 
     res.end (JSON.stringify ({
-      original_url: req.params.link,
-      short_url: base_url + (1000 + next_id)
+      original_url: link,
+      short_url: base_url + code
     }));
     db.close ();
   });
