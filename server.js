@@ -9,17 +9,22 @@ const co = require('co');
 
 let app = express ();
 
-app.get ('/add/:link', (req, res) => {
+app.get ('/add/*', (req, res) => {
   res.writeHead (200, { 'Content-Type': 'application/json' });
 
   /* Check Link */
-  if ( req.params.link.length < 3 ) {
+  if ( req.params[0].length < 3 ) {
     res.end (JSON.stringify ({ error: 'Invalid link' }));
+    return;
   }
 
-  let link = 'http://' + req.params.link;
-  if / /^(http(s)?:\/\/)/.test (req.params.link) )
-    link = req.params.link
+  let query = '?' + Object.keys (req.query).map (k => (
+    encodeURIComponent (k) + '=' + encodeURIComponent (req.query[k])
+  )).join ('&');
+
+  let link = 'http://' + req.params[0] + query;
+  if ( /^(http(s)?:\/\/)/.test (req.params[0]) )
+    link = req.params[0] + query;
 
   co (function* () {
     let db = yield mongodb.connect (db_data);
